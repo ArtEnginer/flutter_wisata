@@ -190,11 +190,13 @@ class WisataPosterPlaceholder extends StatelessWidget {
 class WisataSummaryRow extends StatelessWidget {
   final String nama;
   final String deskripsi;
+  final bool edit;
 
   const WisataSummaryRow({
     Key? key,
     this.nama = "Judul",
     this.deskripsi = "Deskripsi",
+    this.edit = false,
   }) : super(key: key);
 
   @override
@@ -261,8 +263,8 @@ class WisataSummaryRow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Ticket icon
-                  const Icon(
-                    Icons.remove_red_eye,
+                  Icon(
+                    edit ? Icons.edit : Icons.remove_red_eye,
                     color: Constants.textWhite80Color,
                   ),
                 ],

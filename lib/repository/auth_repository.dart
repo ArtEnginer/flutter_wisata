@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wisata/models/index.dart';
 import 'package:wisata/network/base_api.dart';
 
 class AuthRepository {
@@ -60,7 +63,20 @@ class AuthRepository {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final success = await prefs.setString('token', token);
       if (success) {
-        return true;
+        Dio dio = Dio();
+        dio.options.baseUrl = BaseApi().getRestUrl();
+        dio.options.contentType = Headers.formUrlEncodedContentType;
+        dio.options.headers["Authorization"] = "Bearer $token";
+        try {
+          final response = await dio.get("me");
+          if (kDebugMode) {
+            print(response.data);
+          }
+          await prefs.setString('user', jsonEncode(response.data));
+          return true;
+        } on DioError catch (e) {
+          throw e.response?.data;
+        }
       }
     } catch (e) {
       throw e.toString();
@@ -73,11 +89,20 @@ class AuthRepository {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final success = await prefs.remove('token');
       if (success) {
+        await prefs.remove('user');
         return true;
       }
     } catch (e) {
       throw e.toString();
     }
     return false;
+  }
+
+  static Future<UserModel> getUser() async {
+    SharedPreferences prefs;
+    UserModel user;
+    prefs = await SharedPreferences.getInstance();
+    user = UserModel.fromJson(jsonDecode(prefs.getString('user')!));
+    return user;
   }
 }

@@ -21,7 +21,7 @@ class UserProfileDetails extends StatelessWidget {
       children: [
         //Full Name Label
         Text(
-          'Full Name',
+          'Nama Lengkap',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Constants.primaryColor,
               fontSize: 26,
@@ -30,7 +30,7 @@ class UserProfileDetails extends StatelessWidget {
 
         //Full Name
         Text(
-          "NAMA Lengkap",
+          value.user?.fullname ?? "Nama",
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Constants.textWhite80Color,
                 fontSize: 18,
@@ -48,7 +48,7 @@ class UserProfileDetails extends StatelessWidget {
 
         //Email Data
         Text(
-          "email@gmail.com",
+          value.user?.email ?? "Email",
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Constants.textWhite80Color,
                 fontSize: 18,

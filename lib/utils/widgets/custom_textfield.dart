@@ -22,6 +22,8 @@ class CustomTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final String? Function(String? value) validator;
+  final List<TextInputFormatter>? inputFormatter;
+  final String? value;
 
   const CustomTextField({
     Key? key,
@@ -42,6 +44,8 @@ class CustomTextField extends StatefulWidget {
     this.floatingAlign = Alignment.centerLeft,
     this.fillColor = Constants.scaffoldColor,
     this.hintText,
+    this.value,
+    this.inputFormatter = const [],
     this.hintStyle = const TextStyle(
       fontSize: 17,
       color: Constants.textWhite80Color,
@@ -160,6 +164,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: widget.height,
           width: widget.width,
           child: TextFormField(
+            initialValue: widget.value,
+            inputFormatters: widget.inputFormatter,
+            maxLines: isPasswordField ? 1 : 8,
             controller: widget.controller,
             textAlign: widget.textAlign,
             autofocus: widget.autofocus,

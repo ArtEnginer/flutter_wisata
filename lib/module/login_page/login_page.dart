@@ -80,8 +80,8 @@ class LoginPage extends StatelessWidget {
                     child: CustomTextButton.gradient(
                       width: double.infinity,
                       onPressed: () {
+                        value.formKey.currentState!.save();
                         if (value.formKey.currentState!.validate()) {
-                          value.formKey.currentState!.save();
                           value.login();
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Processing Data......')));

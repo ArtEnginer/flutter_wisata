@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wisata/module/home_page/home_page.dart';
 import 'package:wisata/module/login_page/login_page.dart';
 import 'package:wisata/module/register_page/register_page.dart';
 import 'package:wisata/module/welcome_page/welcome_notifier.dart';
 import 'package:wisata/module/welcome_page/welcome_widget.dart';
+import 'package:wisata/module/wisata_crud_page/wisata_crud_page.dart';
+import 'package:wisata/repository/auth_repository.dart';
 import 'package:wisata/utils/constants.dart';
 import 'package:wisata/utils/widgets/custom_text_button.dart';
 
@@ -39,24 +42,32 @@ class WelcomePage extends StatelessWidget {
                             size: 30,
                           ),
                           onTap: () {
-                            // ref.read(authProvider.notifier).logout();
-                            // AppRouter.popUntilRoot();
+                            AuthRepository.logout();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                                (route) => false);
                           },
                         ),
                       ),
 
                       //Edit profile icon
-                      // InkResponse(
-                      //   radius: 26,
-                      //   child: const Icon(
-                      //     Icons.manage_accounts_sharp,
-                      //     color: Constants.primaryColor,
-                      //     size: 30,
-                      //   ),
-                      //   onTap: () {
-                      //     AppRouter.pushNamed(Routes.ChangePasswordScreenRoute);
-                      //   },
-                      // )
+                      value.user?.role[0] == "admin"
+                          ? InkResponse(
+                              radius: 26,
+                              child: const Icon(
+                                Icons.edit,
+                                color: Constants.primaryColor,
+                                size: 30,
+                              ),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WisataCrudPage())),
+                            )
+                          : SizedBox()
                     ],
                   ),
 

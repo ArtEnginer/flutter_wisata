@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wisata/module/wisata_page/wisata_detail.dart';
-import 'package:wisata/module/wisata_page/wisata_notifier.dart';
+import 'package:wisata/module/wisata_crud_page/wisata_crud_notifier.dart';
+import 'package:wisata/module/wisata_crud_page/wisata_form_page.dart';
 import 'package:wisata/module/wisata_page/wisata_widget.dart';
 import 'package:wisata/network/base_api.dart';
 import 'package:wisata/utils/constants.dart';
@@ -9,14 +9,14 @@ import 'package:wisata/utils/context_extensions.dart';
 import 'package:wisata/utils/widgets/custom_network_image.dart';
 import 'package:wisata/utils/widgets/custom_textfield.dart';
 
-class WisataPage extends StatelessWidget {
-  const WisataPage({Key? key}) : super(key: key);
+class WisataCrudPage extends StatelessWidget {
+  const WisataCrudPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => WisataNotifier(context),
-      child: Consumer<WisataNotifier>(
+      create: (_) => WisataCrudNotifier(context),
+      child: Consumer<WisataCrudNotifier>(
         builder: (context, value, child) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -28,51 +28,27 @@ class WisataPage extends StatelessWidget {
                     height: 65,
                     child: Form(
                       key: value.formKey,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 15),
-                          InkResponse(
-                            radius: 25,
-                            child: Icon(Icons.arrow_back_sharp, size: 26),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-
-                          const SizedBox(width: 20),
-
-                          //Page Title
-                          Expanded(
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                // fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(9)),
-                                  borderSide: BorderSide.none,
-                                ),
-                                hintText: "Cari Wisata .....",
-                              ),
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.search,
-                              validator: (value) => null,
-                              onSaved: (newValue) => value.query = newValue,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkResponse(
+                              radius: 25,
+                              child: Icon(Icons.arrow_back_sharp, size: 26),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
                             ),
-                          ),
-
-                          const SizedBox(width: 20),
-                          InkResponse(
-                            radius: 25,
-                            child: Icon(Icons.search, size: 26),
-                            onTap: () {
-                              value.formKey.currentState!.save();
-                              value.getData();
-                            },
-                          ),
-
-                          const SizedBox(width: 15),
-                        ],
+                            InkResponse(
+                              radius: 25,
+                              child: Icon(Icons.plus_one, size: 26),
+                              onTap: () {
+                                value.navigateForm(context, edit: false);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -98,17 +74,15 @@ class WisataPage extends StatelessWidget {
                                   return SizedBox(
                                     height: 140,
                                     child: GestureDetector(
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => WisataDetail(
-                                                data: value.listWisata[i]),
-                                          )),
+                                      onTap: () => value.navigateForm(context,
+                                          edit: true,
+                                          data: value.listWisata[i]),
                                       child: Stack(
                                         alignment: Alignment.bottomCenter,
                                         children: [
                                           //Booking overview
                                           WisataSummaryRow(
+                                            edit: true,
                                             nama: value.listWisata[i].nama,
                                             deskripsi:
                                                 value.listWisata[i].deskripsi,

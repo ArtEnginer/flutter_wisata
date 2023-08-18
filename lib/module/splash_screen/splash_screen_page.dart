@@ -16,9 +16,7 @@ class SplashScreenPage extends StatelessWidget {
               children: [
                 Center(
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width > 600
-                        ? 300
-                        : double.infinity,
+                    width: double.infinity,
                     child: Container(
                       color: const Color.fromARGB(255, 37, 37, 37),
                       padding: const EdgeInsets.symmetric(horizontal: 32),

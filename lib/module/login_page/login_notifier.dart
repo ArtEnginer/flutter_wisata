@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wisata/models/index.dart';
+import 'package:wisata/module/welcome_page/welcome_page.dart';
 import 'package:wisata/repository/auth_repository.dart';
 import 'package:wisata/utils/dialog_custom.dart';
 
@@ -40,11 +41,12 @@ class LoginNotifier extends ChangeNotifier {
         .then((value) async {
       print('Berhasil');
       auth = AuthModel.fromJson(value);
-      final success = await prefs.setString('token', auth?.token ?? '');
+      final success = await AuthRepository.login(auth!.token!);
       if (success) {
-        // mainNotifier.cekLogin();
-        // mainNotifier.gantiMenu(6);
-        CustomDialog.messageResponse(context, value.toString());
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const WelcomePage()),
+            (route) => false);
       }
     }).onError((error, stackTrace) {
       print('Gagal');

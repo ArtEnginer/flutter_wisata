@@ -18,8 +18,9 @@ class WisataNotifier extends ChangeNotifier {
   List<WisataModel> listWisata = [];
   Future getData() async {
     isLoading = true;
+    notifyListeners();
     listWisata.clear();
-    WisataRepository.getWisataAll().then((value) {
+    WisataRepository.getWisata(query: query).then((value) {
       listWisata =
           value.map<WisataModel>((json) => WisataModel.fromJson(json)).toList();
     }).onError((error, stackTrace) {

@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wisata/module/splash_screen/splash_screen_page.dart';
-import 'package:wisata/module/welcome_page/welcome_page.dart';
-import 'package:wisata/module/wisata_page/wisata_page.dart';
 import 'package:wisata/services/local_storage/key_value_storage_base.dart';
 import 'package:wisata/utils/custom_theme.dart';
 
