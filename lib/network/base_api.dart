@@ -1,6 +1,6 @@
 class BaseApi {
   String _getApiHost() {
-    return 'http://api.wisata/';
+    return 'https://wisata.anggaegae.my.id/';
   }
 
   String _getAuthHost() {
