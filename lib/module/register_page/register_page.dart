@@ -1,21 +1,20 @@
-import 'package:constrained_scrollable_views/constrained_scrollable_views.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:wisata/module/login_page/login_notifier.dart';
+import 'package:wisata/module/register_page/register_notifier.dart';
 import 'package:wisata/utils/constants.dart';
 import 'package:wisata/utils/widgets/custom_text_button.dart';
 import 'package:wisata/utils/widgets/custom_textfield.dart';
 import 'package:wisata/utils/widgets/rounded_bottom_container.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LoginNotifier(context),
-      child: Consumer<LoginNotifier>(
+      create: (_) => RegisterNotifier(context),
+      child: Consumer<RegisterNotifier>(
         builder: (context, value, child) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -32,7 +31,7 @@ class LoginPage extends StatelessWidget {
                       children: [
                         //Page name
                         Text(
-                          'Masuk',
+                          'Daftar',
                           style: Theme.of(context)
                               .textTheme
                               .displayMedium
@@ -46,8 +45,22 @@ class LoginPage extends StatelessWidget {
 
                         //Email
                         CustomTextField(
+                          floatingText: 'Nama Lengkap',
+                          hintText: 'Masukkan nama lengkap anda',
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Nama Lengkap Tidak boleh kosong';
+                            }
+                            return null;
+                          },
+                          onSaved: (newValue) => value.name = newValue,
+                        ),
+                        //Email
+                        CustomTextField(
                           floatingText: 'Email',
-                          hintText: 'Type your email address',
+                          hintText: 'Masukkan Email anda',
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           validator: value.validateEmail,
@@ -58,14 +71,29 @@ class LoginPage extends StatelessWidget {
 
                         //Password
                         CustomTextField(
-                          floatingText: 'Password',
-                          hintText: 'Type your password',
+                          floatingText: 'Kata Sandi',
+                          hintText: 'Masukkan Kata sandi',
                           keyboardType: TextInputType.visiblePassword,
                           textInputAction: TextInputAction.done,
                           onSaved: (newValue) => value.password = newValue,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Password Tidak boleh kosong';
+                            }
+                            return null;
+                          },
+                        ),
+                        CustomTextField(
+                          floatingText: 'Ulangi Kata Sandi',
+                          hintText: 'Masukkan Ulangi Kata sandi',
+                          keyboardType: TextInputType.visiblePassword,
+                          textInputAction: TextInputAction.done,
+                          validator: (input) {
+                            if (input == null || input.isEmpty) {
+                              return 'Ulangi Kata Sandi Tidak boleh kosong';
+                            }
+                            if (input != value.password) {
+                              return 'Ulangi Kata Sandi Harus sama dengan kata sandi';
                             }
                             return null;
                           },
@@ -80,9 +108,9 @@ class LoginPage extends StatelessWidget {
                     child: CustomTextButton.gradient(
                       width: double.infinity,
                       onPressed: () {
+                        value.formKey.currentState!.save();
                         if (value.formKey.currentState!.validate()) {
-                          value.formKey.currentState!.save();
-                          value.login();
+                          value.register();
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Processing Data......')));
                         }
@@ -90,7 +118,7 @@ class LoginPage extends StatelessWidget {
                       gradient: Constants.buttonGradientOrange,
                       child: const Center(
                         child: Text(
-                          'MASUK',
+                          'DAFTAR',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,

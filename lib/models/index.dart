@@ -1,6 +1,7 @@
 export 'auth_model.dart';
 export 'hotel_model.dart';
 export 'infografis_model.dart';
+export 'user_model.dart';
 export 'wisata_model.dart';
 import 'package:quiver/core.dart';
 

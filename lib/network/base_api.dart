@@ -8,18 +8,18 @@ class BaseApi {
   }
 
   String getRestUrl() {
-    return '${_getApiHost()}api/wisata/';
+    return '${_getApiHost()}api/';
   }
 
   String getApiUrl() {
-    return '${_getApiHost()}api/wisata/v2/';
+    return '${_getApiHost()}api/v2/';
   }
 
   String getAuthUrl() {
     return '${_getAuthHost()}jwt/';
   }
 
-  String getFileUrl() {
-    return '${_getAuthHost()}files/image/guci/';
+  String getFileUrl(String? category) {
+    return '${_getAuthHost()}store/${category != null ? '$category/' : ""}';
   }
 }

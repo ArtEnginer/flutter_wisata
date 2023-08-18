@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wisata/module/home_page/home_notifier.dart';
 import 'package:wisata/module/login_page/login_page.dart';
+import 'package:wisata/module/register_page/register_page.dart';
 import 'package:wisata/utils/constants.dart';
 import 'package:wisata/utils/widgets/custom_text_button.dart';
 
@@ -89,11 +90,10 @@ class HomePage extends StatelessWidget {
                   CustomTextButton.outlined(
                     width: double.infinity,
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Text("Daftar")),
-                          (route) => false);
+                              builder: (context) => const RegisterPage()));
                     },
                     border: Border.all(color: Constants.primaryColor, width: 4),
                     child: const Center(

@@ -4,14 +4,15 @@ import 'package:wisata/models/index.dart';
 import 'package:wisata/repository/auth_repository.dart';
 import 'package:wisata/utils/dialog_custom.dart';
 
-class LoginNotifier extends ChangeNotifier {
+class RegisterNotifier extends ChangeNotifier {
   final BuildContext context;
   final formKey = GlobalKey<FormState>();
+  String? name;
   String? email;
   String? password;
   bool obsPass = true;
 
-  LoginNotifier(this.context);
+  RegisterNotifier(this.context);
 
   reverseObs() {
     obsPass = !obsPass;
@@ -34,9 +35,10 @@ class LoginNotifier extends ChangeNotifier {
   }
 
   AuthModel? auth;
-  Future login() async {
+  Future register() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    AuthRepository.loginAttempt(email: email!, password: password!)
+    AuthRepository.registerAttempt(
+            email: email!, password: password!, fullname: name!)
         .then((value) async {
       print('Berhasil');
       auth = AuthModel.fromJson(value);

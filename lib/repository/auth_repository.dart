@@ -27,6 +27,34 @@ class AuthRepository {
     }
   }
 
+  static Future<dynamic> registerAttempt({
+    required String email,
+    required String password,
+    required String fullname,
+  }) async {
+    Map<String, dynamic> formData = {
+      'email': email,
+      'password': password,
+      'fullname': fullname
+    };
+    Dio dio = Dio();
+    dio.options.baseUrl = BaseApi().getAuthUrl();
+    dio.options.contentType = Headers.formUrlEncodedContentType;
+    try {
+      final response = await dio.post('register', data: formData);
+      if (kDebugMode) {
+        print(response.data);
+      }
+      return response.data;
+    } on DioError catch (e) {
+      if (kDebugMode) {
+        print(e.requestOptions.headers);
+      }
+      throw e.response?.data['messages']['error'] ??
+          e.response?.data['messages'];
+    }
+  }
+
   static Future<bool> login(String token) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();

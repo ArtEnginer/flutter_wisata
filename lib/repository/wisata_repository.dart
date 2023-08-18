@@ -1,6 +1,6 @@
-import 'package:apk_ow_guci/network/base_api.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wisata/network/base_api.dart';
 
 class WisataRepository {
   static Future<dynamic> getWisataAll() async {
